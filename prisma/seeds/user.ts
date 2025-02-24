@@ -1,15 +1,15 @@
 import { PrismaClient } from '@prisma/client';
 import { Random } from 'mockjs';
-import { hash } from 'argon2';
 import create from '../helper';
+import { md5 } from '../../src/utils';
 
 export const UserSeed = async (num: number = 10) => {
   await create(num, async (prisma: PrismaClient) => {
     await prisma.user.create({
       data: {
-        name: Random.name(),
+        username: Random.name(),
         email: Random.email(),
-        password: await hash(Random.sentence()),
+        password: md5('123456'),
         avatar: Random.image(
           '200x200',
           Random.color(),
